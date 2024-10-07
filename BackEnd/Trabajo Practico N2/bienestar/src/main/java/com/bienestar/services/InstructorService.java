@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class InstructorService {
@@ -13,30 +14,19 @@ public class InstructorService {
     @Autowired
     private InstructorRepository instructorRepository;
 
-    public List<Instructor> findAll() {
-        return instructorRepository.findAll();
-    }
-
-    public Instructor findById(String id) {
-        return instructorRepository.findById(id).orElse(null);
-    }
-
-    public Instructor save(Instructor instructor) {
+    public Instructor crearInstructor(Instructor instructor) {
         return instructorRepository.save(instructor);
     }
 
-    public Instructor update(String id, Instructor instructorDetails) {
-        Instructor instructor = findById(id);
-        if (instructor != null) {
-            instructor.setNombre(instructorDetails.getNombre());
-            instructor.setEspecialidad(instructorDetails.getEspecialidad());
-            // Actualiza otros campos según sea necesario
-            return instructorRepository.save(instructor);
-        }
-        return null;
+    public List<Instructor> obtenerInstructores() {
+        return instructorRepository.findAll();
     }
 
-    public void delete(String id) {
+    public Optional<Instructor> obtenerInstructorPorId(String id) {
+        return instructorRepository.findById(id);
+    }
+
+    public void eliminarInstructor(String id) {
         instructorRepository.deleteById(id);
     }
 }

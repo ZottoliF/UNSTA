@@ -11,18 +11,15 @@ public class Progreso {
     @Id
     private String id;
 
-    private String idMiembro;
-    private String idActividad;
-    private String estado;
-    private String comentarios;
+    private String tipoActividad;
+    private String resultado;
     private LocalDate fecha;
 
     // Constructor
-    public Progreso(String idMiembro, String idActividad, String estado, String comentarios) {
-        this.idMiembro = idMiembro;
-        this.idActividad = idActividad;
-        this.estado = estado;
-        this.comentarios = comentarios;
+    public Progreso(String tipoActividad, String resultado, LocalDate fecha) {
+        this.tipoActividad = tipoActividad;
+        this.resultado = resultado;
+        this.fecha = fecha;
     }
 
     // Getters y Setters
@@ -34,36 +31,20 @@ public class Progreso {
         this.id = id;
     }
 
-    public String getIdMiembro() {
-        return idMiembro;
+    public String getTipoActividad() {
+        return tipoActividad;
     }
 
-    public void setIdMiembro(String idMiembro) {
-        this.idMiembro = idMiembro;
+    public void setTipoActividad(String tipoActividad) {
+        this.tipoActividad = tipoActividad;
     }
 
-    public String getIdActividad() {
-        return idActividad;
+    public String getResultado() {
+        return resultado;
     }
 
-    public void setIdActividad(String idActividad) {
-        this.idActividad = idActividad;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
-    public String getComentarios() {
-        return comentarios;
-    }
-
-    public void setComentarios(String comentarios) {
-        this.comentarios = comentarios;
+    public void setResultado(String resultado) {
+        this.resultado = resultado;
     }
 
     public LocalDate getFecha() { 

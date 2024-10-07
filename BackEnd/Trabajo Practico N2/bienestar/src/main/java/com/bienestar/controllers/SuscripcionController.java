@@ -1,7 +1,7 @@
 package com.bienestar.controllers;
 
 import com.bienestar.models.Suscripcion;
-import com.bienestar.repositories.SuscripcionRepository;
+import com.bienestar.services.SuscripcionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,43 +13,36 @@ import java.util.List;
 public class SuscripcionController {
 
     @Autowired
-    private SuscripcionRepository suscripcionRepository;
+    private SuscripcionService suscripcionService;
+
+    @PostMapping
+    public ResponseEntity<Suscripcion> crearSuscripcion(@RequestBody Suscripcion suscripcion) {
+        Suscripcion nuevaSuscripcion = suscripcionService.crearSuscripcion(suscripcion);
+        return ResponseEntity.ok(nuevaSuscripcion);
+    }
 
     @GetMapping
-    public List<Suscripcion> getAllSuscripciones() {
-        return suscripcionRepository.findAll();
+    public ResponseEntity<List<Suscripcion>> obtenerSuscripciones() {
+        List<Suscripcion> suscripciones = suscripcionService.obtenerSuscripciones();
+        return ResponseEntity.ok(suscripciones);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Suscripcion> getSuscripcionById(@PathVariable String id) {
-        return suscripcionRepository.findById(id)
-                .map(suscripcion -> ResponseEntity.ok().body(suscripcion))
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    @PostMapping
-    public Suscripcion createSuscripcion(@RequestBody Suscripcion suscripcion) {
-        return suscripcionRepository.save(suscripcion);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Suscripcion> updateSuscripcion(@PathVariable String id, @RequestBody Suscripcion suscripcionDetails) {
-        return suscripcionRepository.findById(id)
-                .map(suscripcion -> {
-                    suscripcion.setTipo(suscripcionDetails.getTipo());
-                    suscripcion.setCosto(suscripcionDetails.getCosto());
-                    return ResponseEntity.ok(suscripcionRepository.save(suscripcion));
-                })
+    public ResponseEntity<Suscripcion> obtenerSuscripcionPorId(@PathVariable String id) {
+        return suscripcionService.obtenerSuscripcionPorId(id)
+                .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteSuscripcion(@PathVariable String id) {
-        return suscripcionRepository.findById(id)
-                .map(suscripcion -> {
-                    suscripcionRepository.delete(suscripcion);
-                    return ResponseEntity.ok().<Void>build();
-                })
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Void> eliminarSuscripcion(@PathVariable String id) {
+        suscripcionService.eliminarSuscripcion(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/miembro/{idMiembro}")
+    public ResponseEntity<List<Suscripcion>> buscarSuscripcionesPorMiembro(@PathVariable String idMiembro) {
+        List<Suscripcion> suscripciones = suscripcionService.buscarSuscripcionesPorMiembro(idMiembro);
+        return ResponseEntity.ok(suscripciones);
     }
 }

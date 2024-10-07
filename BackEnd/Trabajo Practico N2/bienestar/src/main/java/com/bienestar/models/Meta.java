@@ -9,15 +9,15 @@ public class Meta {
     @Id
     private String id;
     
-    private String idMiembro;
-    private String descripcion;
-    private String fechaObjetivo;
+    private String metas;
+    private String progreso;
+    private String historialActividad;
 
     // Constructor
-    public Meta(String idMiembro, String descripcion, String fechaObjetivo) {
-        this.idMiembro = idMiembro;
-        this.descripcion = descripcion;
-        this.fechaObjetivo = fechaObjetivo;
+    public Meta(String metas, String progreso, String historialActividad) {
+        this.metas = metas;
+        this.progreso = progreso;
+        this.historialActividad = historialActividad;
     }
 
     // Getters y Setters
@@ -29,27 +29,27 @@ public class Meta {
         this.id = id;
     }
 
-    public String getIdMiembro() {
-        return idMiembro;
+    public String getMetas() {
+        return metas;
     }
 
-    public void setIdMiembro(String idMiembro) {
-        this.idMiembro = idMiembro;
+    public void setMetas(String metas) {
+        this.metas = metas;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getProgreso() {
+        return progreso;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setProgreso(String progreso) {
+        this.progreso = progreso;
     }
 
-    public String getFechaObjetivo() {
-        return fechaObjetivo;
+    public String getHistorialActividad() {
+        return historialActividad;
     }
 
-    public void setFechaObjetivo(String fechaObjetivo) {
-        this.fechaObjetivo = fechaObjetivo;
+    public void setHistorialActividad(String historialActividad) {
+        this.historialActividad = historialActividad;
     }
 }

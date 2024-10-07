@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MiembroService {
@@ -13,29 +14,19 @@ public class MiembroService {
     @Autowired
     private MiembroRepository miembroRepository;
 
-    public List<Miembro> findAll() {
-        return miembroRepository.findAll();
-    }
-
-    public Miembro findById(String id) {
-        return miembroRepository.findById(id).orElse(null);
-    }
-
-    public Miembro save(Miembro miembro) {
+    public Miembro crearMiembro(Miembro miembro) {
         return miembroRepository.save(miembro);
     }
 
-    public Miembro update(String id, Miembro miembroDetails) {
-        Miembro miembro = findById(id);
-        if (miembro != null) {
-            miembro.setNombre(miembroDetails.getNombre());
-            miembro.setEmail(miembroDetails.getEmail());
-            return miembroRepository.save(miembro);
-        }
-        return null;
+    public List<Miembro> obtenerMiembros() {
+        return miembroRepository.findAll();
     }
 
-    public void delete(String id) {
+    public Optional<Miembro> obtenerMiembroPorId(String id) {
+        return miembroRepository.findById(id);
+    }
+
+    public void eliminarMiembro(String id) {
         miembroRepository.deleteById(id);
     }
 }

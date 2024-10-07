@@ -9,14 +9,14 @@ public class Recomendacion {
     @Id
     private String id;
 
-    private String idMiembro;
-    private String mensaje;
+    private String tipoRecomendacion;
+    private String detalle;
 
 
     // Constructor
-    public Recomendacion(String idMiembro, String mensaje) {
-        this.idMiembro = idMiembro;
-        this.mensaje = mensaje;
+    public Recomendacion(String tipoRecomendacion, String detalle) {
+        this.tipoRecomendacion = tipoRecomendacion;
+        this.detalle = detalle;
     }
 
     // Getters y Setters
@@ -28,19 +28,19 @@ public class Recomendacion {
         this.id = id;
     }
 
-    public String getIdMiembro() {
-        return idMiembro;
+    public String getTipoRecomendacion() {
+        return tipoRecomendacion;
     }
 
-    public void setIdMiembro(String idMiembro) {
-        this.idMiembro = idMiembro;
+    public void setIdMiembro(String tipoRecomendacion) {
+        this.tipoRecomendacion = tipoRecomendacion;
     }
 
-    public String getMensaje() {
-        return mensaje;
+    public String getdetalle() {
+        return detalle;
     }
 
-    public void setMensaje(String mensaje) {
-        this.mensaje = mensaje;
+    public void setdetalle(String detalle) {
+        this.detalle = detalle;
     }
 }

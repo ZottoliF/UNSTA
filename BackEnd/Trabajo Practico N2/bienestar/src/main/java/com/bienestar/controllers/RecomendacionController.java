@@ -1,7 +1,7 @@
 package com.bienestar.controllers;
 
 import com.bienestar.models.Recomendacion;
-import com.bienestar.repositories.RecomendacionRepository;
+import com.bienestar.services.RecomendacionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,42 +13,30 @@ import java.util.List;
 public class RecomendacionController {
 
     @Autowired
-    private RecomendacionRepository recomendacionRepository;
+    private RecomendacionService recomendacionService;
+
+    @PostMapping
+    public ResponseEntity<Recomendacion> crearRecomendacion(@RequestBody Recomendacion recomendacion) {
+        Recomendacion nuevaRecomendacion = recomendacionService.crearRecomendacion(recomendacion);
+        return ResponseEntity.ok(nuevaRecomendacion);
+    }
 
     @GetMapping
-    public List<Recomendacion> getAllRecomendaciones() {
-        return recomendacionRepository.findAll();
+    public ResponseEntity<List<Recomendacion>> obtenerRecomendaciones() {
+        List<Recomendacion> recomendaciones = recomendacionService.obtenerRecomendaciones();
+        return ResponseEntity.ok(recomendaciones);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Recomendacion> getRecomendacionById(@PathVariable String id) {
-        return recomendacionRepository.findById(id)
-                .map(recomendacion -> ResponseEntity.ok().body(recomendacion))
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    @PostMapping
-    public Recomendacion createRecomendacion(@RequestBody Recomendacion recomendacion) {
-        return recomendacionRepository.save(recomendacion);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Recomendacion> updateRecomendacion(@PathVariable String id, @RequestBody Recomendacion recomendacionDetails) {
-        return recomendacionRepository.findById(id)
-                .map(recomendacion -> {
-                    recomendacion.setMensaje(recomendacionDetails.getMensaje());
-                    return ResponseEntity.ok(recomendacionRepository.save(recomendacion));
-                })
+    public ResponseEntity<Recomendacion> obtenerRecomendacionPorId(@PathVariable String id) {
+        return recomendacionService.obtenerRecomendacionPorId(id)
+                .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRecomendacion(@PathVariable String id) {
-        return recomendacionRepository.findById(id)
-                .map(recomendacion -> {
-                    recomendacionRepository.delete(recomendacion);
-                    return ResponseEntity.ok().<Void>build();
-                })
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Void> eliminarRecomendacion(@PathVariable String id) {
+        recomendacionService.eliminarRecomendacion(id);
+        return ResponseEntity.noContent().build();
     }
 }

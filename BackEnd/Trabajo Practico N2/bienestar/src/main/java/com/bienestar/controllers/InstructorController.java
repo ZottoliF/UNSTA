@@ -1,7 +1,7 @@
 package com.bienestar.controllers;
 
 import com.bienestar.models.Instructor;
-import com.bienestar.repositories.InstructorRepository;
+import com.bienestar.services.InstructorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,44 +13,30 @@ import java.util.List;
 public class InstructorController {
 
     @Autowired
-    private InstructorRepository instructorRepository;
+    private InstructorService instructorService;
+
+    @PostMapping
+    public ResponseEntity<Instructor> crearInstructor(@RequestBody Instructor instructor) {
+        Instructor nuevoInstructor = instructorService.crearInstructor(instructor);
+        return ResponseEntity.ok(nuevoInstructor);
+    }
 
     @GetMapping
-    public List<Instructor> getAllInstructores() {
-        return instructorRepository.findAll();
+    public ResponseEntity<List<Instructor>> obtenerInstructores() {
+        List<Instructor> instructores = instructorService.obtenerInstructores();
+        return ResponseEntity.ok(instructores);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Instructor> getInstructorById(@PathVariable String id) {
-        return instructorRepository.findById(id)
-                .map(instructor -> ResponseEntity.ok().body(instructor))
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    @PostMapping
-    public Instructor createInstructor(@RequestBody Instructor instructor) {
-        return instructorRepository.save(instructor);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Instructor> updateInstructor(@PathVariable String id, @RequestBody Instructor instructorDetails) {
-        return instructorRepository.findById(id)
-                .map(instructor -> {
-                    instructor.setNombre(instructorDetails.getNombre());
-                    instructor.setEspecialidad(instructorDetails.getEspecialidad());
-                    // Actualiza otros campos según sea necesario
-                    return ResponseEntity.ok(instructorRepository.save(instructor));
-                })
+    public ResponseEntity<Instructor> obtenerInstructorPorId(@PathVariable String id) {
+        return instructorService.obtenerInstructorPorId(id)
+                .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteInstructor(@PathVariable String id) {
-        return instructorRepository.findById(id)
-                .map(instructor -> {
-                    instructorRepository.delete(instructor);
-                    return ResponseEntity.ok().<Void>build();
-                })
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Void> eliminarInstructor(@PathVariable String id) {
+        instructorService.eliminarInstructor(id);
+        return ResponseEntity.noContent().build();
     }
 }

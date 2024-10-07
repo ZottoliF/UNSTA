@@ -9,12 +9,12 @@ public class Instructor {
     @Id
     private String id;
     
-    private String nombre;
+    private String cursosCreados;
     private String especialidad;
 
     // Constructor
-    public Instructor(String nombre, String especialidad) {
-        this.nombre = nombre;
+    public Instructor(String cursosCreados, String especialidad) {
+        this.cursosCreados = cursosCreados;
         this.especialidad = especialidad;
     }
 
@@ -27,12 +27,12 @@ public class Instructor {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getCursosCreados() {
+        return cursosCreados;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setCursosCreados(String cursosCreados) {
+        this.cursosCreados = cursosCreados;
     }
 
     public String getEspecialidad() {

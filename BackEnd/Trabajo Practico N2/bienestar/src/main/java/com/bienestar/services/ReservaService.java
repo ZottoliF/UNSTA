@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ReservaService {
@@ -13,30 +14,27 @@ public class ReservaService {
     @Autowired
     private ReservaRepository reservaRepository;
 
-    public List<Reserva> findAll() {
-        return reservaRepository.findAll();
-    }
-
-    public Reserva findById(String id) {
-        return reservaRepository.findById(id).orElse(null);
-    }
-
-    public Reserva save(Reserva reserva) {
+    public Reserva crearReserva(Reserva reserva) {
         return reservaRepository.save(reserva);
     }
 
-    public Reserva update(String id, Reserva reservaDetails) {
-        Reserva reserva = findById(id);
-        if (reserva != null) {
-            reserva.setIdActividad(reservaDetails.getIdActividad());
-            reserva.setIdMiembro(reservaDetails.getIdMiembro());
-            reserva.setFecha(reservaDetails.getFecha());
-            return reservaRepository.save(reserva);
-        }
-        return null;
+    public List<Reserva> obtenerReservas() {
+        return reservaRepository.findAll();
     }
 
-    public void delete(String id) {
+    public Optional<Reserva> obtenerReservaPorId(String id) {
+        return reservaRepository.findById(id);
+    }
+
+    public void eliminarReserva(String id) {
         reservaRepository.deleteById(id);
+    }
+
+    public List<Reserva> buscarReservasPorMiembro(String idMiembro) {
+        return reservaRepository.findByIdMiembro(idMiembro);
+    }
+
+    public List<Reserva> buscarReservasPorInstructor(String idInstructor) {
+        return reservaRepository.findByIdInstructor(idInstructor);
     }
 }

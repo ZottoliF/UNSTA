@@ -1,7 +1,7 @@
 package com.bienestar.controllers;
 
 import com.bienestar.models.Usuario;
-import com.bienestar.repositories.UsuarioRepository;
+import com.bienestar.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,44 +13,42 @@ import java.util.List;
 public class UsuarioController {
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private UsuarioService usuarioService;
+
+    @PostMapping
+    public ResponseEntity<Usuario> crearUsuario(@RequestBody Usuario usuario) {
+        Usuario nuevoUsuario = usuarioService.crearUsuario(usuario);
+        return ResponseEntity.ok(nuevoUsuario);
+    }
 
     @GetMapping
-    public List<Usuario> getAllUsuarios() {
-        return usuarioRepository.findAll();
+    public ResponseEntity<List<Usuario>> obtenerUsuarios() {
+        List<Usuario> usuarios = usuarioService.obtenerUsuarios();
+        return ResponseEntity.ok(usuarios);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> getUsuarioById(@PathVariable String id) {
-        return usuarioRepository.findById(id)
-                .map(usuario -> ResponseEntity.ok().body(usuario))
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    @PostMapping
-    public Usuario createUsuario(@RequestBody Usuario usuario) {
-        return usuarioRepository.save(usuario);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Usuario> updateUsuario(@PathVariable String id, @RequestBody Usuario usuarioDetails) {
-        return usuarioRepository.findById(id)
-                .map(usuario -> {
-                    usuario.setNombre(usuarioDetails.getNombre());
-                    usuario.setEmail(usuarioDetails.getEmail());
-                    // Actualiza otros campos según sea necesario
-                    return ResponseEntity.ok(usuarioRepository.save(usuario));
-                })
+    public ResponseEntity<Usuario> obtenerUsuarioPorId(@PathVariable String id) {
+        return usuarioService.obtenerUsuarioPorId(id)
+                .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUsuario(@PathVariable String id) {
-        return usuarioRepository.findById(id)
-                .map(usuario -> {
-                    usuarioRepository.delete(usuario);
-                    return ResponseEntity.ok().<Void>build();
-                })
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Void> eliminarUsuario(@PathVariable String id) {
+        usuarioService.eliminarUsuario(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/auth")
+    public ResponseEntity<Usuario> autenticarUsuario(@RequestBody Usuario usuario) {
+        Usuario usuarioAutenticado = usuarioService.autenticarUsuario(usuario.getEmail(), usuario.getContrasena());
+        return usuarioAutenticado != null ? ResponseEntity.ok(usuarioAutenticado) : ResponseEntity.status(401).build();
+    }
+
+    @GetMapping("/buscar")
+    public ResponseEntity<List<Usuario>> buscarUsuariosPorNombre(@RequestParam String nombre) {
+        List<Usuario> usuarios = usuarioService.buscarUsuariosPorNombre(nombre);
+        return ResponseEntity.ok(usuarios);
     }
 }

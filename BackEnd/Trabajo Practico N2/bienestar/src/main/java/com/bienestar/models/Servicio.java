@@ -10,12 +10,16 @@ public class Servicio {
     private String id;
 
     private String nombre;
-    private String descripcion;
+    private String tipoServicio;
+    private int duracion;
+    private Double costo;
 
     // Constructor
-    public Servicio(String nombre, String descripcion) {
+    public Servicio(String nombre, String tipoServicio, int duracion, Double costo) {
         this.nombre = nombre;
-        this.descripcion = descripcion;
+        this.tipoServicio = tipoServicio;
+        this.duracion = duracion;
+        this.costo = costo;
     }
 
     // Getters y Setters
@@ -35,11 +39,27 @@ public class Servicio {
         this.nombre = nombre;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getTipoServicio() {
+        return tipoServicio;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setTipoServicio(String tipoServicio) {
+        this.tipoServicio = tipoServicio;
+    }
+
+    public int getDuracion() {
+        return duracion;
+    }
+
+    public void setDuracion(int duracion) {
+        this.duracion = duracion;
+    }
+
+    public Double getCosto() {
+        return costo;
+    }
+
+    public void setCosto(Double costo) {
+        this.costo = costo;
     }
 }

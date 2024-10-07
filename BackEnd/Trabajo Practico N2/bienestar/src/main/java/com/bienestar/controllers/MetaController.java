@@ -1,7 +1,7 @@
 package com.bienestar.controllers;
 
 import com.bienestar.models.Meta;
-import com.bienestar.repositories.MetaRepository;
+import com.bienestar.services.MetaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,43 +13,30 @@ import java.util.List;
 public class MetaController {
 
     @Autowired
-    private MetaRepository metaRepository;
+    private MetaService metaService;
+
+    @PostMapping
+    public ResponseEntity<Meta> crearMeta(@RequestBody Meta meta) {
+        Meta nuevaMeta = metaService.crearMeta(meta);
+        return ResponseEntity.ok(nuevaMeta);
+    }
 
     @GetMapping
-    public List<Meta> getAllMetas() {
-        return metaRepository.findAll();
+    public ResponseEntity<List<Meta>> obtenerMetas() {
+        List<Meta> metas = metaService.obtenerMetas();
+        return ResponseEntity.ok(metas);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Meta> getMetaById(@PathVariable String id) {
-        return metaRepository.findById(id)
-                .map(meta -> ResponseEntity.ok().body(meta))
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    @PostMapping
-    public Meta createMeta(@RequestBody Meta meta) {
-        return metaRepository.save(meta);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Meta> updateMeta(@PathVariable String id, @RequestBody Meta metaDetails) {
-        return metaRepository.findById(id)
-                .map(meta -> {
-                    meta.setDescripcion(metaDetails.getDescripcion());
-                    meta.setFechaObjetivo(metaDetails.getFechaObjetivo());
-                    return ResponseEntity.ok(metaRepository.save(meta));
-                })
+    public ResponseEntity<Meta> obtenerMetaPorId(@PathVariable String id) {
+        return metaService.obtenerMetaPorId(id)
+                .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteMeta(@PathVariable String id) {
-        return metaRepository.findById(id)
-                .map(meta -> {
-                    metaRepository.delete(meta);
-                    return ResponseEntity.ok().<Void>build();
-                })
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Void> eliminarMeta(@PathVariable String id) {
+        metaService.eliminarMeta(id);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -1,5 +1,7 @@
 package com.bienestar.models;
 
+import java.time.LocalDate;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -10,14 +12,21 @@ public class Reserva {
     private String id;
     
     private String idMiembro;
-    private String idActividad;
-    private String fecha;
+    private String idInstructor;
+    private String idServicio;
+    private String idInstalacion;
+    private LocalDate fecha;
+    private String estado;
+    
 
     // Constructor
-    public Reserva(String idMiembro, String idActividad, String fecha) {
+    public Reserva(String idMiembro, String idInstructor, String idServicio, String idInstalacion, String estado, LocalDate fecha) {
         this.idMiembro = idMiembro;
-        this.idActividad = idActividad;
+        this.idInstructor = idInstructor;
+        this.idServicio = idServicio;
+        this.idInstalacion = idInstalacion;
         this.fecha = fecha;
+        this.estado = estado;
     }
 
     // Getters y Setters
@@ -37,19 +46,43 @@ public class Reserva {
         this.idMiembro = idMiembro;
     }
 
-    public String getIdActividad() {
-        return idActividad;
+    public String getIdInstructor() {
+        return idInstructor;
     }
 
-    public void setIdActividad(String idActividad) {
-        this.idActividad = idActividad;
+    public void setIdInstructor(String idInstructor) {
+        this.idInstructor = idInstructor;
     }
 
-    public String getFecha() {
+    public String getIdServicio() {
+        return idServicio;
+    }
+
+    public void setIdServicio(String idServicio) {
+        this.idServicio = idServicio;
+    }
+
+    public String getIdInstalacion() {
+        return idInstalacion;
+    }
+
+    public void setIdInstalacion(String idInstalacion) {
+        this.idInstalacion = idInstalacion;
+    }
+
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 }

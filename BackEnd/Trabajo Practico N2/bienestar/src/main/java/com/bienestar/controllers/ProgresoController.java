@@ -1,7 +1,7 @@
 package com.bienestar.controllers;
 
 import com.bienestar.models.Progreso;
-import com.bienestar.repositories.ProgresoRepository;
+import com.bienestar.services.ProgresoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,44 +13,30 @@ import java.util.List;
 public class ProgresoController {
 
     @Autowired
-    private ProgresoRepository progresoRepository;
+    private ProgresoService progresoService;
+
+    @PostMapping
+    public ResponseEntity<Progreso> crearProgreso(@RequestBody Progreso progreso) {
+        Progreso nuevoProgreso = progresoService.crearProgreso(progreso);
+        return ResponseEntity.ok(nuevoProgreso);
+    }
 
     @GetMapping
-    public List<Progreso> getAllProgresos() {
-        return progresoRepository.findAll();
+    public ResponseEntity<List<Progreso>> obtenerProgresos() {
+        List<Progreso> progresos = progresoService.obtenerProgresos();
+        return ResponseEntity.ok(progresos);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Progreso> getProgresoById(@PathVariable String id) {
-        return progresoRepository.findById(id)
-                .map(progreso -> ResponseEntity.ok().body(progreso))
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    @PostMapping
-    public Progreso createProgreso(@RequestBody Progreso progreso) {
-        return progresoRepository.save(progreso);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Progreso> updateProgreso(@PathVariable String id, @RequestBody Progreso progresoDetails) {
-        return progresoRepository.findById(id)
-                .map(progreso -> {
-                    progreso.setIdMiembro(progresoDetails.getIdMiembro());
-                    progreso.setIdActividad(progresoDetails.getIdActividad());
-                    progreso.setFecha(progresoDetails.getFecha());
-                    return ResponseEntity.ok(progresoRepository.save(progreso));
-                })
+    public ResponseEntity<Progreso> obtenerProgresoPorId(@PathVariable String id) {
+        return progresoService.obtenerProgresoPorId(id)
+                .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProgreso(@PathVariable String id) {
-        return progresoRepository.findById(id)
-                .map(progreso -> {
-                    progresoRepository.delete(progreso);
-                    return ResponseEntity.ok().<Void>build();
-                })
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Void> eliminarProgreso(@PathVariable String id) {
+        progresoService.eliminarProgreso(id);
+        return ResponseEntity.noContent().build();
     }
 }

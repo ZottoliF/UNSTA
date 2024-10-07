@@ -1,7 +1,7 @@
 package com.bienestar.controllers;
 
 import com.bienestar.models.Reserva;
-import com.bienestar.repositories.ReservaRepository;
+import com.bienestar.services.ReservaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,44 +13,42 @@ import java.util.List;
 public class ReservaController {
 
     @Autowired
-    private ReservaRepository reservaRepository;
+    private ReservaService reservaService;
+
+    @PostMapping
+    public ResponseEntity<Reserva> crearReserva(@RequestBody Reserva reserva) {
+        Reserva nuevaReserva = reservaService.crearReserva(reserva);
+        return ResponseEntity.ok(nuevaReserva);
+    }
 
     @GetMapping
-    public List<Reserva> getAllReservas() {
-        return reservaRepository.findAll();
+    public ResponseEntity<List<Reserva>> obtenerReservas() {
+        List<Reserva> reservas = reservaService.obtenerReservas();
+        return ResponseEntity.ok(reservas);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Reserva> getReservaById(@PathVariable String id) {
-        return reservaRepository.findById(id)
-                .map(reserva -> ResponseEntity.ok().body(reserva))
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    @PostMapping
-    public Reserva createReserva(@RequestBody Reserva reserva) {
-        return reservaRepository.save(reserva);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Reserva> updateReserva(@PathVariable String id, @RequestBody Reserva reservaDetails) {
-        return reservaRepository.findById(id)
-                .map(reserva -> {
-                    reserva.setIdMiembro(reservaDetails.getIdMiembro());
-                    reserva.setIdActividad(reservaDetails.getIdActividad());
-                    reserva.setFecha(reservaDetails.getFecha());
-                    return ResponseEntity.ok(reservaRepository.save(reserva));
-                })
+    public ResponseEntity<Reserva> obtenerReservaPorId(@PathVariable String id) {
+        return reservaService.obtenerReservaPorId(id)
+                .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteReserva(@PathVariable String id) {
-        return reservaRepository.findById(id)
-                .map(reserva -> {
-                    reservaRepository.delete(reserva);
-                    return ResponseEntity.ok().<Void>build();
-                })
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Void> eliminarReserva(@PathVariable String id) {
+        reservaService.eliminarReserva(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/miembro/{idMiembro}")
+    public ResponseEntity<List<Reserva>> buscarReservasPorMiembro(@PathVariable String idMiembro) {
+        List<Reserva> reservas = reservaService.buscarReservasPorMiembro(idMiembro);
+        return ResponseEntity.ok(reservas);
+    }
+
+    @GetMapping("/instructor/{idInstructor}")
+    public ResponseEntity<List<Reserva>> buscarReservasPorInstructor(@PathVariable String idInstructor) {
+        List<Reserva> reservas = reservaService.buscarReservasPorInstructor(idInstructor);
+        return ResponseEntity.ok(reservas);
     }
 }

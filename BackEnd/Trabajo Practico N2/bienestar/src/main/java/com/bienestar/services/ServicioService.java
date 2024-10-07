@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ServicioService {
@@ -13,29 +14,19 @@ public class ServicioService {
     @Autowired
     private ServicioRepository servicioRepository;
 
-    public List<Servicio> findAll() {
-        return servicioRepository.findAll();
-    }
-
-    public Servicio findById(String id) {
-        return servicioRepository.findById(id).orElse(null);
-    }
-
-    public Servicio save(Servicio servicio) {
+    public Servicio crearServicio(Servicio servicio) {
         return servicioRepository.save(servicio);
     }
 
-    public Servicio update(String id, Servicio servicioDetails) {
-        Servicio servicio = findById(id);
-        if (servicio != null) {
-            servicio.setNombre(servicioDetails.getNombre());
-            servicio.setDescripcion(servicioDetails.getDescripcion());
-            return servicioRepository.save(servicio);
-        }
-        return null;
+    public List<Servicio> obtenerServicios() {
+        return servicioRepository.findAll();
     }
 
-    public void delete(String id) {
+    public Optional<Servicio> obtenerServicioPorId(String id) {
+        return servicioRepository.findById(id);
+    }
+
+    public void eliminarServicio(String id) {
         servicioRepository.deleteById(id);
     }
 }

@@ -12,12 +12,14 @@ public class Usuario {
     private String nombre;
     private String email;
     private String contrasena;
+    private String tipoUsuario;
 
     // Constructor
-    public Usuario(String nombre, String email, String contrasena) {
+    public Usuario(String nombre, String email, String contrasena, String tipoUsuario) {
         this.nombre = nombre;
         this.email = email;
         this.contrasena = contrasena;
+        this.tipoUsuario = tipoUsuario;
     }
 
     // Getters y Setters
@@ -52,4 +54,12 @@ public class Usuario {
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
     }
+
+    public String getTipoUsuario () {
+        return tipoUsuario;
+    }
+     public void setTipoUsuario(String tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
+    }
+
 }

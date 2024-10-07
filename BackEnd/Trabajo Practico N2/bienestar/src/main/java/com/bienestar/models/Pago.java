@@ -9,14 +9,12 @@ public class Pago {
     @Id
     private String id;
     
-    private String idMiembro;
-    private double monto;
+    private double cantidad;
     private String fecha;
 
     // Constructor
-    public Pago(String idMiembro, double monto, String fecha) {
-        this.idMiembro = idMiembro;
-        this.monto = monto;
+    public Pago(double cantidad, String fecha) {
+        this.cantidad = cantidad;
         this.fecha = fecha;
     }
 
@@ -29,20 +27,12 @@ public class Pago {
         this.id = id;
     }
 
-    public String getIdMiembro() {
-        return idMiembro;
+    public double getCantidad() {
+        return cantidad;
     }
 
-    public void setIdMiembro(String idMiembro) {
-        this.idMiembro = idMiembro;
-    }
-
-    public double getMonto() {
-        return monto;
-    }
-
-    public void setMonto(double monto) {
-        this.monto = monto;
+    public void setCantidad(double cantidad) {
+        this.cantidad = cantidad;
     }
 
     public String getFecha() {

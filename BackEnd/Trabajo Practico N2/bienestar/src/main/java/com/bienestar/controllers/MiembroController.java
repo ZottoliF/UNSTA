@@ -1,7 +1,7 @@
 package com.bienestar.controllers;
 
 import com.bienestar.models.Miembro;
-import com.bienestar.repositories.MiembroRepository;
+import com.bienestar.services.MiembroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,43 +13,30 @@ import java.util.List;
 public class MiembroController {
 
     @Autowired
-    private MiembroRepository miembroRepository;
+    private MiembroService miembroService;
+
+    @PostMapping
+    public ResponseEntity<Miembro> crearMiembro(@RequestBody Miembro miembro) {
+        Miembro nuevoMiembro = miembroService.crearMiembro(miembro);
+        return ResponseEntity.ok(nuevoMiembro);
+    }
 
     @GetMapping
-    public List<Miembro> getAllMiembros() {
-        return miembroRepository.findAll();
+    public ResponseEntity<List<Miembro>> obtenerMiembros() {
+        List<Miembro> miembros = miembroService.obtenerMiembros();
+        return ResponseEntity.ok(miembros);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Miembro> getMiembroById(@PathVariable String id) {
-        return miembroRepository.findById(id)
-                .map(miembro -> ResponseEntity.ok().body(miembro))
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    @PostMapping
-    public Miembro createMiembro(@RequestBody Miembro miembro) {
-        return miembroRepository.save(miembro);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Miembro> updateMiembro(@PathVariable String id, @RequestBody Miembro miembroDetails) {
-        return miembroRepository.findById(id)
-                .map(miembro -> {
-                    miembro.setNombre(miembroDetails.getNombre());
-                    miembro.setEmail(miembroDetails.getEmail());
-                    return ResponseEntity.ok(miembroRepository.save(miembro));
-                })
+    public ResponseEntity<Miembro> obtenerMiembroPorId(@PathVariable String id) {
+        return miembroService.obtenerMiembroPorId(id)
+                .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteMiembro(@PathVariable String id) {
-        return miembroRepository.findById(id)
-                .map(miembro -> {
-                    miembroRepository.delete(miembro);
-                    return ResponseEntity.ok().<Void>build();
-                })
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Void> eliminarMiembro(@PathVariable String id) {
+        miembroService.eliminarMiembro(id);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -1,5 +1,7 @@
 package com.bienestar.models;
 
+import java.time.LocalDate;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -10,13 +12,15 @@ public class Suscripcion {
     private String id;
 
     private String idMiembro;
-    private String tipo;
-    private double costo;
+    private String tipoSuscripcion;
+    private LocalDate fechaInicio;
+    private String estado;
 
     // Constructor
-    public Suscripcion(String idMiembro, String tipo) {
+    public Suscripcion(String idMiembro, String tipoSuscripcion, LocalDate fechaInicio, String estado) {
         this.idMiembro = idMiembro;
-        this.tipo = tipo;
+        this.tipoSuscripcion = tipoSuscripcion;
+        this.fechaInicio = fechaInicio;
     }
 
     // Getters y Setters
@@ -36,20 +40,28 @@ public class Suscripcion {
         this.idMiembro = idMiembro;
     }
 
-    public String getTipo() {
-        return tipo;
+    public String getTipoSuscripcion() {
+        return tipoSuscripcion;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setTipoSuscripcion(String tipoSuscripcion) {
+        this.tipoSuscripcion = tipoSuscripcion;
     }
 
-    public double getCosto() { 
-        return costo;
+    public LocalDate getFechaInicio() { 
+        return fechaInicio;
     }
 
-    public void setCosto(double costo) {
-        this.costo = costo;
+    public void setFechaInicion(LocalDate fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+
+    public String getEstadp() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
 }

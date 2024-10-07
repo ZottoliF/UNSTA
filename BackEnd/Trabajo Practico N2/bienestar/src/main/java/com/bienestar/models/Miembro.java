@@ -11,13 +11,13 @@ public class Miembro {
     
     private String nombre;
     private String email;
-    private String telefono;
+    private String historialActividad;
 
     // Constructor
-    public Miembro(String nombre, String email, String telefono) {
+    public Miembro(String nombre, String email, String historialActividad) {
         this.nombre = nombre;
         this.email = email;
-        this.telefono = telefono;
+        this.historialActividad = historialActividad;
     }
 
     // Getters y Setters
@@ -46,10 +46,10 @@ public class Miembro {
     }
 
     public String getTelefono() {
-        return telefono;
+        return historialActividad;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
+    public void setHistorialActividad(String historialActividad) {
+        this.historialActividad = historialActividad;
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MetaService {
@@ -13,29 +14,19 @@ public class MetaService {
     @Autowired
     private MetaRepository metaRepository;
 
-    public List<Meta> findAll() {
-        return metaRepository.findAll();
-    }
-
-    public Meta findById(String id) {
-        return metaRepository.findById(id).orElse(null);
-    }
-
-    public Meta save(Meta meta) {
+    public Meta crearMeta(Meta meta) {
         return metaRepository.save(meta);
     }
 
-    public Meta update(String id, Meta metaDetails) {
-        Meta meta = findById(id);
-        if (meta != null) {
-            meta.setDescripcion(metaDetails.getDescripcion());
-            meta.setFechaObjetivo(metaDetails.getFechaObjetivo());
-            return metaRepository.save(meta);
-        }
-        return null;
+    public List<Meta> obtenerMetas() {
+        return metaRepository.findAll();
     }
 
-    public void delete(String id) {
+    public Optional<Meta> obtenerMetaPorId(String id) {
+        return metaRepository.findById(id);
+    }
+
+    public void eliminarMeta(String id) {
         metaRepository.deleteById(id);
     }
 }

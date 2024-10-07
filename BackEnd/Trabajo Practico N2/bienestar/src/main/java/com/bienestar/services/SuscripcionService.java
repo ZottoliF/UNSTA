@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SuscripcionService {
@@ -13,29 +14,23 @@ public class SuscripcionService {
     @Autowired
     private SuscripcionRepository suscripcionRepository;
 
-    public List<Suscripcion> findAll() {
-        return suscripcionRepository.findAll();
-    }
-
-    public Suscripcion findById(String id) {
-        return suscripcionRepository.findById(id).orElse(null);
-    }
-
-    public Suscripcion save(Suscripcion suscripcion) {
+    public Suscripcion crearSuscripcion(Suscripcion suscripcion) {
         return suscripcionRepository.save(suscripcion);
     }
 
-    public Suscripcion update(String id, Suscripcion suscripcionDetails) {
-        Suscripcion suscripcion = findById(id);
-        if (suscripcion != null) {
-            suscripcion.setTipo(suscripcionDetails.getTipo());
-            suscripcion.setCosto(suscripcionDetails.getCosto());
-            return suscripcionRepository.save(suscripcion);
-        }
-        return null;
+    public List<Suscripcion> obtenerSuscripciones() {
+        return suscripcionRepository.findAll();
     }
 
-    public void delete(String id) {
+    public Optional<Suscripcion> obtenerSuscripcionPorId(String id) {
+        return suscripcionRepository.findById(id);
+    }
+
+    public void eliminarSuscripcion(String id) {
         suscripcionRepository.deleteById(id);
+    }
+
+    public List<Suscripcion> buscarSuscripcionesPorMiembro(String idMiembro) {
+        return suscripcionRepository.findByIdMiembro(idMiembro);
     }
 }

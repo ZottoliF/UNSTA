@@ -10,13 +10,12 @@ public class Instalacion {
     private String id;
 
     private String nombre;
-    private String tipo;
     private int capacidad;
 
     // Constructor
-    public Instalacion(String nombre, String tipo) {
+    public Instalacion(String nombre, int capacidad) {
         this.nombre = nombre;
-        this.tipo = tipo;
+        this.capacidad = capacidad;
     }
 
     // Getters y Setters
@@ -36,14 +35,6 @@ public class Instalacion {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
     }
 
     public int getCapacidad() { 
