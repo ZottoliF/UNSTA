@@ -38,7 +38,6 @@ public class MiembroController {
                 .map(miembro -> {
                     miembro.setNombre(miembroDetails.getNombre());
                     miembro.setEmail(miembroDetails.getEmail());
-                    // Actualiza otros campos según sea necesario
                     return ResponseEntity.ok(miembroRepository.save(miembro));
                 })
                 .orElse(ResponseEntity.notFound().build());
