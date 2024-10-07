@@ -6,7 +6,11 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.3.4</version>
+<<<<<<< HEAD
 		<relativePath/>
+=======
+		<relativePath/> <!-- lookup parent from repository -->
+>>>>>>> 295ec7310198da3e55e056bd53767eb5add17479
 	</parent>
 	<groupId>com.bienestar</groupId>
 	<artifactId>bienestar</artifactId>
