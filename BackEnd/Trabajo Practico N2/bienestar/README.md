@@ -41,7 +41,7 @@ Se decidió implementar pruebas unitarias para los endpoints principales usando 
 
 **Solución**: Se utilizó el método verify() de Mockito para asegurar que las interacciones esperadas con los mocks se estaban produciendo. Esto permitió que las pruebas validaran no solo el flujo de ejecución, sino también la correcta invocación de los métodos esperados.
 
-#####
 
+#
 
 El diseño con Spring Boot y MongoDB han facilitado el desarrollo de la plataforma. A través de la implementación de pruebas unitarias y la correcta separación de responsabilidades, el sistema garantiza un nivel de calidad adecuado para su despliegue. Los desafíos encontrados durante el proceso de desarrollo fueron resueltos mediante una combinación de actualización de dependencias, diseño adecuado de las entidades y pruebas exhaustivas.
