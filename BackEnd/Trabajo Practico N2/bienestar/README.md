@@ -1,43 +1,23 @@
 # Informe Técnico - Plataforma de Bienestar Integral
 
-## Descripción del Proyecto
-La Plataforma de Bienestar Integral es un sistema digital diseñado para gestionar los servicios de un centro de salud física y mental. El sistema permite a los usuarios reservar clases y sesiones de entrenamiento, hacer seguimiento de su progreso, y recibir recomendaciones personalizadas. Asimismo, los instructores pueden gestionar sus clases y consultar el historial de actividades de los miembros.
-
-### Funcionalidades Principales:
-- **Gestión de Servicios**: Los usuarios pueden explorar y reservar servicios como clases de meditación, entrenamientos físicos, consultas nutricionales, entre otros.
-- **Asignación de Recursos**: Administración de instalaciones y recursos como equipos e instructores.
-- **Seguimiento de Progreso**: Permite a los usuarios establecer metas y realizar un seguimiento de su avance en función de actividades previas.
-- **Sistema de Recomendaciones Personalizadas**: El sistema sugiere actividades basadas en el perfil y progreso del usuario.
-
 ## Decisiones de Diseño
 
 ### 1. **Arquitectura del Sistema**
 Se adoptó una arquitectura **basada en servicios REST** utilizando **Spring Boot** como framework principal. Esta elección permitió una separación clara entre las capas de controladores, servicios y repositorios, lo que facilita el mantenimiento y escalabilidad del proyecto.
+ 
+Al estructurar el proyecto en servicios **REST**, se facilita la ampliación futura, permitiendo añadir más servicios sin afectar el núcleo del sistema. Al seguir el estándar REST, la integración con otros sistemas externos y clientes (aplicaciones móviles o web) es más simple.
 
-#### Justificación:
-- **Modularidad**: Al estructurar el proyecto en servicios REST, se facilita la ampliación futura, permitiendo añadir más servicios sin afectar el núcleo del sistema.
-- **Facilidad de Integración**: Al seguir el estándar REST, la integración con otros sistemas externos y clientes (aplicaciones móviles o web) es más simple.
-
-### 2. **Persistencia con MongoDB**
-Se decidió utilizar **MongoDB** como base de datos NoSQL debido a la naturaleza dinámica de los datos, como el historial de actividades y metas de los usuarios, los cuales no tienen un esquema rígido y pueden cambiar con el tiempo.
-
-#### Justificación:
-- **Flexibilidad**: MongoDB proporciona una estructura de documentos flexible que permite almacenar y consultar datos sin necesidad de adherirse a un esquema fijo, ideal para los modelos del sistema como `Meta`, `Miembro` e `Instructor`.
-- **Escalabilidad**: MongoDB está diseñado para manejar grandes cantidades de datos distribuidos, lo que es útil en caso de crecimiento del sistema y un número elevado de usuarios.
+### 2. **MongoDB**
+ Decidí utilizar **MongoDB** como base de datos NoSQL debido a la naturaleza dinámica de los datos, como el historial de actividades y metas de los usuarios, los cuales no tienen un esquema rígido y pueden cambiar con el tiempo. MongoDB proporciona una estructura de documentos flexible que permite almacenar y consultar datos sin necesidad de adherirse a un esquema .
 
 ### 3. **Diseño de Clases y Entidades**
-Se diseñaron las entidades principales siguiendo los requerimientos del proyecto, como `Miembro`, `Instructor`, `Meta` e `Instalacion`. Cada entidad contiene atributos relacionados con su función en el sistema.
+Se diseñaron las entidades principales siguiendo los requerimientos del proyecto. Cada entidad contiene atributos relacionados con su función en el sistema. Mantener un diseño simple en las entidades, asegurando que cada clase represente un concepto claro dentro del dominio del sistema. Separar la lógica de negocio y la persistencia de datos dentro de servicios específicos permite la reutilización de código a través de múltiples endpoints.
 
-#### Justificación:
-- **Simplicidad**: Mantener un diseño simple en las entidades, asegurando que cada clase represente un concepto claro dentro del dominio del sistema.
-- **Reutilización**: Separar la lógica de negocio y la persistencia de datos dentro de servicios específicos permite la reutilización de código a través de múltiples endpoints.
+### 4. **Documentación con Swagger**
+Swagger fue integrado para la autogeneración de documentación de la API. Esto facilita visualizar y probar los distintos endpoints de manera rápida y sin tener que crear documentación manual.
 
-### 4. **Testing Unitario**
-Se decidió implementar pruebas unitarias para los endpoints principales usando **JUnit** y **MockMvc** para simular peticiones HTTP y verificar el correcto funcionamiento de las rutas.
-
-#### Justificación:
-- **Confiabilidad**: Asegurar que los controladores y servicios funcionen correctamente antes de desplegar el sistema es crucial para mantener la calidad del software.
-- **Eficiencia**: Al automatizar las pruebas, se reducen los tiempos de validación manual y se mejora la capacidad de detectar errores antes de la implementación.
+### 5. **Testing Unitario**
+Se decidió implementar pruebas unitarias para los endpoints principales usando **MockMvc** para simular peticiones HTTP y verificar el correcto funcionamiento de las rutas. Asegurar que los controladores y servicios funcionen correctamente antes de desplegar el sistema es crucial para mantener la calidad del software. Al automatizar las pruebas, se reducen los tiempos de validación manual y se mejora la capacidad de detectar errores antes de la implementación.
 
 ## Desafíos Encontrados y Soluciones
 
@@ -56,13 +36,10 @@ Se decidió implementar pruebas unitarias para los endpoints principales usando 
 
 **Solución**: Se utilizó la función `when(...).thenReturn(Arrays.asList(...))` para simular el retorno de listas en las pruebas unitarias, asegurando que los controladores manejen correctamente múltiples resultados.
 
-### 4. **Manejo de la Capacidad en Instalaciones**
-**Desafío**: Para las instalaciones, era necesario manejar el control de capacidad y evitar sobrepasar el límite en las reservas.
+### 4. **Pruebas falsas con mockito**
+**Desafío**: Al realizar pruebas con Mockito, algunos test no fallaban cuando debían, dando la impresión de que todo estaba funcionando correctamente. El problema era que no se estaban validando las interacciones con los mocks de manera efectiva.
 
-**Solución**: Se implementó una validación en el servicio de reservas que verifica la capacidad disponible antes de permitir que un usuario reserve una clase o sesión en una instalación determinada.
+**Solución**: Se utilizó el método verify() de Mockito para asegurar que las interacciones esperadas con los mocks se estaban produciendo. Esto permitió que las pruebas validaran no solo el flujo de ejecución, sino también la correcta invocación de los métodos esperados.
 
-## Conclusiones
 
-El diseño modular y la elección de tecnologías como Spring Boot y MongoDB han facilitado el desarrollo de una plataforma flexible y escalable. A través de la implementación de pruebas unitarias y la correcta separación de responsabilidades, el sistema garantiza un nivel de calidad adecuado para su despliegue. Los desafíos encontrados durante el proceso de desarrollo fueron resueltos mediante una combinación de actualización de dependencias, diseño adecuado de las entidades y pruebas exhaustivas.
-
-Este enfoque ha permitido crear un sistema robusto, capaz de manejar tanto la gestión de usuarios e instructores, como la administración de recursos e instalaciones, asegurando una experiencia de usuario fluida y eficiente.
+El diseño con Spring Boot y MongoDB han facilitado el desarrollo de la plataforma. A través de la implementación de pruebas unitarias y la correcta separación de responsabilidades, el sistema garantiza un nivel de calidad adecuado para su despliegue. Los desafíos encontrados durante el proceso de desarrollo fueron resueltos mediante una combinación de actualización de dependencias, diseño adecuado de las entidades y pruebas exhaustivas.
