@@ -14,7 +14,7 @@ Al estructurar el proyecto en servicios **REST**, se facilita la ampliación fut
 Diseñé las entidades principales siguiendo los requerimientos del proyecto. Cada entidad contiene atributos relacionados con su función en el sistema. Mantuve un diseño simple en las entidades, asegurando que cada clase represente un concepto claro dentro del dominio del sistema. Separar la lógica de negocio y la persistencia de datos dentro de servicios específicos permite la reutilización de código a través de muchos endpoints.
 
 ### 4. **Documentación con Swagger**
-Integré Swagger para la autogeneración de documentación de la API. Esto facilita visualizar y probar los distintos endpoints de manera rápida y sin tener que crear documentación manual.
+Integré Swagger para la autogeneración de documentación de la API. Esto facilita visualizar y probar los distintos endpoints de manera rápida y sin tener que crear documentación manual. Para ver la documentacion, ejecutar el proyecto y abrir : **http://localhost:8080/swagger-ui**
 
 ### 5. **Testing Unitario**
 Decidí implementar pruebas unitarias para los endpoints principales usando **MockMvc** para simular peticiones HTTP y verificar el correcto funcionamiento de las rutas. Asegurar que los controladores y servicios funcionen correctamente antes de desplegar el sistema es crucial para mantener la calidad del software. Al automatizar las pruebas, se reducen los tiempos de validación manual y se mejora la capacidad de detectar errores antes de la implementación.
