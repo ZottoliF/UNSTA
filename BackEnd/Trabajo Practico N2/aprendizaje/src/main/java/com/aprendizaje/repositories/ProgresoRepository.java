@@ -6,5 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProgresoRepository extends MongoRepository<Progreso, String> {
-    // Aquí puedes agregar consultas personalizadas si es necesario
 }
