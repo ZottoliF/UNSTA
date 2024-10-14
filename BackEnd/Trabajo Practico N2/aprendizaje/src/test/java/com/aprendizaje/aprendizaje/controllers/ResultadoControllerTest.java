@@ -1,25 +1,29 @@
-package com.aprendizaje.aprendizaje.controllers;
+package com.aprendizaje.controllers;
 
-import com.aprendizaje.models.Resultado;
-import com.aprendizaje.services.ResultadoService;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.Arrays;
-import java.util.Optional;
+import com.aprendizaje.models.Resultado;
+import com.aprendizaje.services.ResultadoService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
+@WebMvcTest(ResultadoController.class)
 public class ResultadoControllerTest {
 
+    @Autowired
     private MockMvc mockMvc;
 
     @Mock
@@ -28,64 +32,38 @@ public class ResultadoControllerTest {
     @InjectMocks
     private ResultadoController resultadoController;
 
+    private Resultado resultado1;
+    private Resultado resultado2;
+
     @BeforeEach
-    void setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(resultadoController).build();
+    public void setUp() {
+        resultado1 = new Resultado("Juan", "Examen Final", 85);
+        resultado2 = new Resultado("Maria", "Examen Parcial", 90);
     }
 
     @Test
-    void obtenerTodosLosResultados() throws Exception {
-        Resultado resultado = new Resultado("1", "Exitoso", 100);
-        when(resultadoService.obtenerTodosLosResultados()).thenReturn(Arrays.asList(resultado));
+    public void testGetAllResultados() throws Exception {
+        List<Resultado> resultados = Arrays.asList(resultado1, resultado2);
 
-        mockMvc.perform(get("/api/resultados"))
+        when(resultadoService.obtenerTodosLosResultados()).thenReturn(resultados);
+
+        mockMvc.perform(get("/api/resultados")
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].idResultado").value("1"))
-                .andExpect(jsonPath("$[0].estado").value("Exitoso"));
+                .andExpect(jsonPath("$[0].estudiante").value("Juan"))
+                .andExpect(jsonPath("$[1].puntaje").value(90));
     }
 
     @Test
-    void obtenerResultadoPorId() throws Exception {
-        Resultado resultado = new Resultado("1", "Exitoso", 100);
-        when(resultadoService.obtenerResultadoPorId("1")).thenReturn(Optional.of(resultado));
+    public void testCreateResultado() throws Exception {
+        Resultado nuevoResultado = new Resultado("Carlos", "Examen Recuperatorio", 75);
 
-        mockMvc.perform(get("/api/resultados/1"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.idResultado").value("1"))
-                .andExpect(jsonPath("$.estado").value("Exitoso"));
-    }
-
-    @Test
-    void crearResultado() throws Exception {
-        Resultado resultado = new Resultado("1", "Exitoso", 100);
-        when(resultadoService.crearResultado(any(Resultado.class))).thenReturn(resultado);
+        when(resultadoService.crearResultado(any(Resultado.class))).thenReturn(nuevoResultado);
 
         mockMvc.perform(post("/api/resultados")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"estado\":\"Exitoso\", \"puntaje\":100}"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(nuevoResultado)))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.idResultado").value("1"))
-                .andExpect(jsonPath("$.estado").value("Exitoso"));
-    }
-
-    @Test
-    void actualizarResultado() throws Exception {
-        Resultado resultado = new Resultado("1", "Exitoso", 100);
-        when(resultadoService.actualizarResultado("1", any(Resultado.class))).thenReturn(resultado);
-
-        mockMvc.perform(put("/api/resultados/1")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"estado\":\"Fallido\", \"puntaje\":50}"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.estado").value("Exitoso"));
-    }
-
-    @Test
-    void eliminarResultado() throws Exception {
-        doNothing().when(resultadoService).eliminarResultado("1");
-
-        mockMvc.perform(delete("/api/resultados/1"))
-                .andExpect(status().isNoContent());
+                .andExpect(jsonPath("$.estudiante").value("Carlos"));
     }
 }

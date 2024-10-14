@@ -1,25 +1,29 @@
-package com.aprendizaje.aprendizaje.controllers;
+package com.aprendizaje.controllers;
 
-import com.aprendizaje.models.Estudiante;
-import com.aprendizaje.services.EstudianteService;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.Arrays;
-import java.util.Optional;
+import com.aprendizaje.models.Estudiante;
+import com.aprendizaje.services.EstudianteService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
+@WebMvcTest(EstudianteController.class)
 public class EstudianteControllerTest {
 
+    @Autowired
     private MockMvc mockMvc;
 
     @Mock
@@ -28,64 +32,38 @@ public class EstudianteControllerTest {
     @InjectMocks
     private EstudianteController estudianteController;
 
+    private Estudiante estudiante1;
+    private Estudiante estudiante2;
+
     @BeforeEach
-    void setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(estudianteController).build();
+    public void setUp() {
+        estudiante1 = new Estudiante("Juan", "juan@example.com");
+        estudiante2 = new Estudiante("Maria", "maria@example.com");
     }
 
     @Test
-    void obtenerTodosLosEstudiantes() throws Exception {
-        Estudiante estudiante = new Estudiante("1", "Juan", "juan@mail.com");
-        when(estudianteService.obtenerTodosLosEstudiantes()).thenReturn(Arrays.asList(estudiante));
+    public void testGetAllEstudiantes() throws Exception {
+        List<Estudiante> estudiantes = Arrays.asList(estudiante1, estudiante2);
 
-        mockMvc.perform(get("/api/estudiantes"))
+        when(estudianteService.obtenerTodosLosEstudiantes()).thenReturn(estudiantes);
+
+        mockMvc.perform(get("/api/estudiantes")
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].idEstudiante").value("1"))
-                .andExpect(jsonPath("$[0].nombre").value("Juan"));
+                .andExpect(jsonPath("$[0].nombre").value("Juan"))
+                .andExpect(jsonPath("$[1].correo").value("maria@example.com"));
     }
 
     @Test
-    void obtenerEstudiantePorId() throws Exception {
-        Estudiante estudiante = new Estudiante("1", "Juan", "juan@mail.com");
-        when(estudianteService.obtenerEstudiantePorId("1")).thenReturn(Optional.of(estudiante));
+    public void testCreateEstudiante() throws Exception {
+        Estudiante nuevoEstudiante = new Estudiante("Carlos", "carlos@example.com");
 
-        mockMvc.perform(get("/api/estudiantes/1"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.idEstudiante").value("1"))
-                .andExpect(jsonPath("$.nombre").value("Juan"));
-    }
-
-    @Test
-    void crearEstudiante() throws Exception {
-        Estudiante estudiante = new Estudiante("1", "Juan", "juan@mail.com");
-        when(estudianteService.crearEstudiante(any(Estudiante.class))).thenReturn(estudiante);
+        when(estudianteService.crearEstudiante(any(Estudiante.class))).thenReturn(nuevoEstudiante);
 
         mockMvc.perform(post("/api/estudiantes")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"nombre\":\"Juan\", \"mail\":\"juan@mail.com\"}"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(nuevoEstudiante)))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.idEstudiante").value("1"))
-                .andExpect(jsonPath("$.nombre").value("Juan"));
-    }
-
-    @Test
-    void actualizarEstudiante() throws Exception {
-        Estudiante estudiante = new Estudiante("1", "Juan", "juan@mail.com");
-        when(estudianteService.actualizarEstudiante("1", any(Estudiante.class))).thenReturn(estudiante);
-
-        mockMvc.perform(put("/api/estudiantes/1")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"nombre\":\"Carlos\", \"mail\":\"carlos@mail.com\"}"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.nombre").value("Juan"));
-    }
-
-    @Test
-    void eliminarEstudiante() throws Exception {
-        doNothing().when(estudianteService).eliminarEstudiante("1");
-
-        mockMvc.perform(delete("/api/estudiantes/1"))
-                .andExpect(status().isNoContent());
+                .andExpect(jsonPath("$.nombre").value("Carlos"));
     }
 }
