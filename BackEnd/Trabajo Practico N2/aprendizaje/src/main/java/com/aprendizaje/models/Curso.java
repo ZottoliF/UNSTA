@@ -12,15 +12,17 @@ public class Curso {
     private String nombre;
     private String descripcion;
     private Instructor instructor; 
-    private List<Modulo> modulos;   
+    private List<Modulo> modulos; 
+    private List<Estudiante> estudiantes;  // Cambiado a Estudiante
 
     // Constructor
-    public Curso(String idCurso, String nombre, String descripcion, Instructor instructor, List<Modulo> modulos) {
+    public Curso(String idCurso, String nombre, String descripcion, Instructor instructor, List<Modulo> modulos, List<Estudiante> estudiantes) {
         this.idCurso = idCurso;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.instructor = instructor;
         this.modulos = modulos;
+        this.estudiantes = estudiantes;  // Inicializar lista de estudiantes
     }
 
     // Getters y setters
@@ -62,5 +64,13 @@ public class Curso {
 
     public void setModulos(List<Modulo> modulos) {
         this.modulos = modulos;
+    }
+
+    public List<Estudiante> getEstudiantes() {
+        return estudiantes;
+    }
+
+    public void setEstudiantes(List<Estudiante> estudiantes) {
+        this.estudiantes = estudiantes;
     }
 }
