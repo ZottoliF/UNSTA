@@ -1,0 +1,47 @@
+* {
+    margin: 0;
+    padding: 6%;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+body {
+    background-image: url('img.png');
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 440px;
+    margin: 50px auto;
+    background: #363636;
+    padding: 30px;
+    border-radius: 4px;
+    color: white;
+    box-shadow: 7px 13px 37px #000;
+}
+
+.container h4 {
+    font-size: 22px;
+    margin-bottom: 5%;
+}
+
+.container h1 {
+    font-size: 13px;
+
+}
+
+.container p {
+    height: 40px;
+    text-align: center;
+    font-size: 18px;
+    line-height: 40px;
+}
+
+.container a {
+    color: white;
+    text-decoration: none;
+}
+
+.container a:hover {
+    text-decoration: underline;
+}

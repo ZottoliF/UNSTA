@@ -1,0 +1,366 @@
+body {
+  font-family: "Euclid Circ.menuar A", "Poppins";
+  font-size: 18px;
+  margin: 0;
+  height: 100vh;
+  background: #acacac;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+nav {
+  width: 100%;
+}
+
+a {
+  cursor: pointer;
+}
+
+.menu {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  height: 70px;
+}
+
+.menu li {
+padding: 20px;
+  transition: all 0.3s ease-in-out;
+}
+
+.menu li:hover .submenu {
+  height: 85px;
+}
+
+.menu > li:hover > a {
+  color: #ffffff;
+}
+
+.menu > li:hover > a::before {
+  visibility: visible;
+  scale: 1 1;
+}
+
+.submenu {
+  overflow: hidden;
+  position: absolute;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  width: 100%;
+  background-color: #07010e;
+  height: 0;
+  line-height: 40px;
+  box-sizing: border-box;
+  transition: height 0.3s ease-in-out;
+}
+.menu li .submenu a {
+  color: #a0a0a0;
+  opacity: 0;
+  font-size: 16px;
+  transition: opacity 0.25s;
+}
+
+.menu > li:hover .submenu a {
+  opacity: 1;
+}
+
+.menu > li .submenu a:hover {
+  background: rgb(0 0 0 / 20%);
+}
+
+.menu > li a {
+  color: #7c7c7c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 7px;
+  text-decoration: none;
+  position: relative;
+  height: 100%;
+}
+
+.menu > li > a::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 3px;
+  bottom: -3px;
+  left: 0px;
+  background-color: #090111;
+  transition: all 0.2s ease-in-out;
+  scale: 0 0;
+  visibility: hidden;
+}
+
+
+   /*FOTER*/
+
+
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 12px;
+    width: 100%;
+    background: #cacaca;
+    padding-top: 60px;
+  }
+  
+  section.bottom > img {
+    height: 50px;
+    margin: 0 auto 50px;
+  }
+  
+  section {
+    position: relative;
+    margin: 0 30px;
+  }
+  
+  section.top {
+    display: grid;
+    border-bottom: 2px solid rgb(255 255 255 / 20%);
+    padding-bottom: 20px;
+  }
+  
+  section.bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column-reverse;
+    gap: 8px;
+    padding: 20px 0;
+    text-align: center;
+  }
+  
+  section.top .links {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 30px;
+    margin-bottom: 36px;
+  }
+  
+  .links-column {
+    display: grid;
+    gap: 10px;
+    text-align: center;
+  }
+  
+  section h2 {
+    margin: 0 0 10px;
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--color-title);
+  }
+  
+  section p {
+    margin: 0;
+  }
+  
+  .legal > a {
+    margin: 0 0 0 4px;
+    text-decoration: none;
+    color: #07010e;
+  }
+  
+  .legal,
+  .copyright {
+    font-size: 10px;
+  }
+  
+  .legal > span {
+    margin-right: 10px;
+  }
+  
+  section.top .socials {
+    position: absolute;
+    left: 50%;
+    bottom: 10px;
+    translate: -50% 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 56px;
+  }
+  
+  section.top .socials > a {
+    font-size: 20px;
+    background: rgb(45 118 232 / 25%);
+    color: var(--color-title);
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+  }
+  
+  .socials-column :is(h2, p) {
+    display: none;
+  }
+  
+  @media (width > 400px) {
+    .links-column {
+      text-align: left;
+    }
+  
+    section.top .links {
+      grid-template-columns: repeat(2, 1fr);
+      margin-right: 50px;
+    }
+  
+    section.bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-direction: row;
+      gap: 20px;
+      text-align: left;
+    }
+  
+    section.top .socials {
+      left: 0;
+      translate: 0;
+    }
+  
+    section.top > img {
+      margin: 0 0 50px;
+    }
+  }
+  
+  @media (width >= 640px) {
+    section {
+      margin: 0 auto;
+      max-width: 580px;
+      padding: 0;
+    }
+  
+    section.top .links {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  
+    section.top .socials {
+      position: static;
+    }
+  
+    section.bottom {
+      justify-content: flex-start;
+    }
+  
+    .socials-column :is(h2, p) {
+      display: block;
+    }
+  }
+
+  /* Compañeros  */
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    background: #acacac;
+  }
+  
+  .accordion {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    height: 400px;
+    gap: 16px;
+    transition: 0.3s;
+  }
+  
+  .accordion:hover {
+    gap: 0;
+  }
+  
+  .accordion li {
+    position: relative;
+    overflow: hidden;
+    flex: 0 0 80px;
+    border-radius: 50px;
+    opacity: 0.75;
+    cursor: pointer;
+  }
+  
+  .accordion li img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(0.5);
+  }
+  
+  .accordion li,
+  .accordion li img,
+  .accordion li .content,
+  .accordion li .content span {
+    transition: 0.3s;
+  }
+  
+  .accordion h2 {
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 45px;
+    border-bottom: 2px solid #fff;
+    margin-bottom: 10px;
+    white-space: nowrap;
+  }
+  
+  .accordion li .content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    color: #fff;
+    padding: 15px;
+    background: hsl(240, 92%, 9%);
+    background: linear-gradient(
+      0deg,
+      rgb(0 0 0 / 70%) 10%,
+      rgb(255 255 255 / 0%) 100%
+    );
+    opacity: 0;
+    visibility: hidden;
+  }
+  
+  .accordion li .content span {
+    position: absolute;
+    z-index: 3;
+    left: 50%;
+    bottom: 50px;
+    translate: -300px 0;
+    visibility: hidden;
+    opacity: 0;
+  }
+  
+  .accordion li:hover {
+    flex: 0 1 260px;
+    scale: 1.1;
+    z-index: 10;
+    opacity: 1;
+  }
+  
+  .accordion li:hover .content {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .accordion li:hover span {
+    translate: -50% 0;
+    opacity: 1;
+    visibility: visible;
+  }

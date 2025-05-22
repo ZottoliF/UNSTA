@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Alumno</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div>
+    <form id="alumnoForm" class="container" onsubmit="return validarFormulario()">
+        <h2>Formulario de Alumno</h2>
+        <input type="text" id="nombre" name="nombre" placeholder="Nombre"><br>
+        <span id="errorNombre" class="error"></span><br>
+
+        <input type="text" id="apellido" name="apellido" placeholder="Apellido"><br>
+        <span id="errorApellido" class="error"></span><br>
+
+        <input type="text" id="legajo" name="legajo" placeholder="Legajo"><br>
+        <span id="errorLegajo" class="error"></span><br>
+
+        <input type="email" id="email" name="email" placeholder="Correo Electronico"><br>
+        <span id="errorEmail" class="error"></span><br>
+
+        <input type="submit" value="Enviar">
+    </form>
+</div>
+
+     <div id="calcularPromedio" class="container" style="display: none;"> 
+     <h2>Calculo de Promedio</h2>
+     <form id="calculadoraPromedio">
+        <input type="text" id="materia1" name="materia1" required placeholder="Materia 1">
+        <input type="number" id="nota1" name="nota1" min="0" max="10" step="0.1" required placeholder="Nota"><br>
+
+        <input type="text" id="materia2" name="materia2" required placeholder="Materia2">
+        <input type="number" id="nota2" name="nota2" min="0" max="10" step="0.1" required placeholder="Nota"><br>
+
+        <input type="text" id="materia3" name="materia3" required placeholder="Materia 3">
+        <input type="number" id="nota3" name="nota3" min="0" max="10" step="0.1" required placeholder="Nota"><br>
+
+        <input type="text" id="materia4" name="materia4" required placeholder="Materia 4">
+        <input type="number" id="nota4" name="nota4" min="0" max="10" step="0.1" required placeholder="Nota"><br>
+
+        <input type="text" id="materia5" name="materia5" required placeholder="Materia 5">
+        <input type="number" id="nota5" name="nota5" min="0" max="10" step="0.1" required placeholder="Nota"><br><br>
+
+        <input type="submit" value="Calcular Promedio" onclick="calcularPromedio(event)">
+     </form>
+     <p>El promedio es:  <span id="resultadoPromedio"></span></p>
+     </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
